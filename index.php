@@ -20,19 +20,19 @@ $errors = [];
   $titleLen = mb_strlen(trim($_POST['title'])) ;
   if ($departamentLen > 50) {
     $errors['departament'] = 'Введите не более 50 символов';
-  }elseif ($departamentLen < 1) {
-    $errors['departament'] = 'Введите не менее 1 символа';
-  }elseif ($departamentLen > 0 and !preg_match('/[^0-9]/', $departament)) {
+  }elseif ($departamentLen < 5) {
+    $errors['departament'] = 'Введите не менее 5 символов';
+  }elseif ($departamentLen > 0 and !preg_match('/[^0-9]/', $departament)){
     $errors['departament'] = 'Поле не может состоять только из цифр';
   }elseif($departamentLen > 0 and preg_match("/[A-Za-z!@#$%^&*(:)№;?~`<>'{}()|\/<>]/iu", $departament)){
     $errors['departament'] = 'Поле может содержать только кириллицу или цифры';
   } 
   
   if ($categoryLen > 20) {
-    $errors['category'] = 'Введите не болеее 20 символов';
-  }elseif ($categoryLen < 1) {
-    $errors['category'] = 'Введите не менее 1 символа';
-  }elseif ($categoryLen > 0 and !preg_match('/[^0-9]/', $category)) {
+    $errors['category'] = 'Введите не более 20 символов';
+  }elseif ($categoryLen < 2) {
+    $errors['category'] = 'Введите не менее 2 символов';
+  }elseif ($categoryLen > 0 and !preg_match('/[^0-9]/', $category)){
     $errors['category'] = 'Поле не может состоять только из цифр';
   }elseif($categoryLen > 0 and preg_match("/[A-Za-z!@#$%^&*(:)№;?~`<>'{}()|\/<>]/iu", $category)){
     $errors['category'] = 'Поле может содержать только кириллицу или цифры'; 
@@ -42,14 +42,16 @@ $errors = [];
     $errors['inventory'] = 'Введите не менее 1 символа';
   }elseif ($inventoryLen > 5) {
     $errors['inventory'] = 'Введите не более 5 символов';
+  }elseif ($inventory < 1) {
+    $errors['inventory'] = 'Инвентарный номер не может быть меньше 1';
   }elseif(mysqli_num_rows(mysqli_query($connect, "SELECT inventory FROM technic WHERE inventory = $inventory"))){
     $errors['inventory'] = 'Такой номер уже существует';
   }
   
   if ($titleLen > 50) {
     $errors['title'] = 'Введите не болеее 50 символов';
-  }elseif ($titleLen < 1) {
-    $errors['title'] = 'Введите не менее 1 символа';
+  }elseif ($titleLen < 5) {
+    $errors['title'] = 'Введите не менее 5 символов';
   }elseif ($titleLen > 0 and !preg_match('/[^0-9]/', $title)) {
     $errors['title'] = 'Поле не может состоять только из цифр';
   }elseif($titleLen > 0 and preg_match("/[А-Яа-я!@#$%^&*(:)№;?~`<>'{}()|\/<>]/iu", $title)){
