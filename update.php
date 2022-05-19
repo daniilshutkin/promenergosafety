@@ -46,7 +46,7 @@ if (isset($_POST['update'])) {
     $id = mysqli_query($connect,"SELECT id FROM technic WHERE inventory = $inventory");
     $id = mysqli_fetch_assoc($id);
     if($id['id'] != $technic_id){
-      $errors['inventory'] = 'Такой номер уже существует';
+      $errors['inventory'] = 'Такой инвентарный номер уже существует';
     }
   }
   
@@ -73,6 +73,7 @@ if (isset($_POST['update'])) {
 <html>
     <head>
         <meta charset="UTF-8">
+        <link href="css/favicon.ico" rel="shortcut icon" type="image/x-icon">
         <title>Промэнергобезопасность</title>
         <link rel="stylesheet" href="css/main.css">
     </head>
@@ -87,6 +88,7 @@ if (isset($_POST['update'])) {
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <link href="css/favicon.ico" rel="shortcut icon" type="image/x-icon">
   <meta charset="utf-8">
   <title>Обновить технику</title>
 </head>

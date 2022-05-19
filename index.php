@@ -88,6 +88,7 @@ $errors = [];
 <head>
     <meta charset="utf-8">
     <title>Промэнергобезопасность</title>
+    <link href="css/favicon.ico" rel="shortcut icon" type="image/x-icon">
 </head>
 <body class="index">
 
