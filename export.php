@@ -68,6 +68,7 @@
     $sheet = $phpexcel->getActiveSheet();
     $sheet->setTitle('Отчет');
     $sheet->freezePane('A2'); //Фиксирование шапки
+    $sheet->setAutoFilter('A1:E1');//Создание фильтра для шапки таблицы
     $sheet->getDefaultStyle()->applyFromArray($sheetStyle); //Стиль для всех ячеек
     $sheet->getStyle('A1:E1')->applyFromArray($styleHead); //Стиль для шапки
     $sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER); //Горизонтальное выравнивание по центру
