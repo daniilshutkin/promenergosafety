@@ -17,7 +17,7 @@
 		exit();
 	} 
 
-	setcookie('user',$user['name'], time() + 3600, "/");
+	setcookie('user',$user['name'], time() + 36000, "/");
 
 	header('Location: ../index.php');
 ?>

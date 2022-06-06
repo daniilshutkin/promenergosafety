@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Фев 01 2022 г., 13:49
+-- Время создания: Июн 06 2022 г., 16:18
 -- Версия сервера: 5.7.33
 -- Версия PHP: 7.3.33
 
@@ -39,7 +39,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `login`, `pass`) VALUES
-(1, 'adminpanel', 'adminpanel', 'promenergo2021');
+(1, 'adminpanel', 'adminpanel', 'promenergo2022');
 
 --
 -- Индексы сохранённых таблиц

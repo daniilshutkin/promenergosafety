@@ -83,7 +83,7 @@
         $sheet->getColumnDimension($row['cell'])->setWidth($width); //Установка ширины столбца
     }
 
-    $SQL = "SELECT * FROM `technic`";
+    $SQL = "SELECT `technic`.`id`, `departament`.`nameDepartament`, `category`.`nameCategory`, `technic`.`inventory`, `technic`.`title` FROM `technic` INNER JOIN `departament` ON `technic`.`departament` = `departament`.`id_departament` INNER JOIN `category` ON `technic`.`category` = `category`.`id_category`";
     if (isset($_GET['sort'])){
         $sort_sql = $_GET['sort'];
         $SQL .= "ORDER BY {$sort_sql}";

@@ -18,6 +18,7 @@ $errors = [];
   $categoryLen = mb_strlen(trim($_POST['category'])) ;
   $inventoryLen = mb_strlen(trim($_POST['inventory'])) ;
   $titleLen = mb_strlen(trim($_POST['title'])) ;
+  /*
   if ($departamentLen > 50) {
     $errors['departament'] = 'Введите не более 50 символов';
   }elseif ($departamentLen < 5) {
@@ -37,7 +38,7 @@ $errors = [];
   }elseif($categoryLen > 0 and preg_match("/[A-Za-z!@#$%^&*(:)№;?~`<>'{}()|\/<>]/iu", $category)){
     $errors['category'] = 'Поле может содержать только кириллицу или цифры'; 
   }
-  
+  */
   if ($inventoryLen < 1) {
     $errors['inventory'] = 'Введите не менее 1 символа';
   }elseif ($inventoryLen > 5) {
@@ -96,10 +97,10 @@ $errors = [];
     $sort_list = array(
         'id_asc' => '`id`',
         'id_desc' => '`id` DESC',
-        'deportament_asc' => '`departament`',
-        'deportament_desc' => '`departament` DESC',
-        'category_asc' => '`category`',
-        'category_desc' => '`category` DESC',
+        'deportament_asc' => '`departament`.`nameDepartament`',
+        'deportament_desc' => '`departament`.`nameDepartament` DESC',
+        'category_asc' => '`category`.`nameCategory`',
+        'category_desc' => '`category`.`nameCategory` DESC',
         'inventory_asc' => '`inventory`',
         'inventory_desc' => '`inventory` DESC',
         'title_asc' => '`title`',
@@ -160,7 +161,7 @@ $errors = [];
                         <tbody>
                             <tr>
                                 <?php
-                                $technic = mysqli_query($connect, "SELECT * FROM `technic` ORDER BY {$sort_sql}");
+                                $technic = mysqli_query($connect, "SELECT `technic`.`id`, `departament`.`nameDepartament`, `category`.`nameCategory`, `technic`.`inventory`, `technic`.`title` FROM `technic` INNER JOIN `departament` ON `technic`.`departament` = `departament`.`id_departament` INNER JOIN `category` ON `technic`.`category` = `category`.`id_category` ORDER BY {$sort_sql}");
                                 $technic = mysqli_fetch_all($technic);
                                 foreach ($technic as $technic) {
                                     ?>
@@ -197,7 +198,7 @@ $errors = [];
                     <table>
                         <tbody>
                             <?php
-                            $technic = mysqli_query($connect, "SELECT * FROM `technic` ORDER BY {$sort_sql}");
+                            $technic = mysqli_query($connect, "SELECT `technic`.`id`, `departament`.`nameDepartament`, `category`.`nameCategory`, `technic`.`inventory`, `technic`.`title` FROM `technic` INNER JOIN `departament` ON `technic`.`departament` = `departament`.`id_departament` INNER JOIN `category` ON `technic`.`category` = `category`.`id_category` ORDER BY {$sort_sql}");
                             $technic = mysqli_fetch_all($technic);
                             foreach ($technic as $technic) {
                                 ?>
@@ -221,18 +222,38 @@ $errors = [];
             </div>
         </div>
         <div class="addTex">
-        <h3>Добавить новую технику</h3>
+        <h3>Добавить новое оборудование</h3>
         <form action="index.php" method="post">
             <?php if(!empty($errors['departament']))echo $errors['departament'];?>
-            <textarea name="departament" placeholder="Введите отдел"></textarea><br>
+            <span>Отдел</span>
+            <select name="departament" style="width:100%; padding: 10px 5px;">
+            <?php
+                $departaments = mysqli_query($connect, "SELECT * FROM `departament`");
+                $departaments = mysqli_fetch_all($departaments);
+                foreach ($departaments as $departament) { 
+                    echo '<option value="'.$departament[0].'">'.$departament[1].'</option>';
+                }
+            ?>
+            </select>
+            <!--<textarea name="departament" placeholder="Введите отдел"></textarea>--><br>
             <?php if(!empty($errors['category']))echo $errors['category'];?>
-            <input type="text" name="category" placeholder="Введите категорию"><br>
+            <span>Категория</span>
+            <select name="category" style="width: 100%; padding: 10px 5px;">
+            <?php
+                $categoryes = mysqli_query($connect, "SELECT * FROM `category`");
+                $categoryes = mysqli_fetch_all($categoryes);
+                foreach ($categoryes as $category) { 
+                    echo '<option value="'.$category[0].'">'.$category[1].'</option>';
+                }
+            ?>
+            </select>
+            <!--<input type="text" name="category" placeholder="Введите категорию">--><br>
             <?php if(!empty($errors['inventory']))echo $errors['inventory'];?> 
             <input type="number" name="inventory" placeholder="Введите инвентарный номер"><br>
             <?php if(!empty($errors['title']))echo $errors['title'];?> 
-            <textarea name="title" placeholder="Введите название"></textarea>
+            <textarea name="title" placeholder="Введите название оборудования"></textarea>
             <br>
-            <button name="addForm" type="submit">Добавить технику</button>
+            <button name="addForm" type="submit">Добавить оборудование</button>
         </form>
         </div>
     </div>

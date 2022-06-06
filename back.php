@@ -4,9 +4,6 @@ $resText = '';
 
 $views = json_decode(file_get_contents("views.json"));
 $views->mail++;
-file_put_contents('views.json', json_encode($views));
-
-echo 'Количество посещений: '.$views->mail;
 if (isset($_POST['mail'])) {
     
     $name = trim($_POST['name']);
@@ -14,11 +11,13 @@ if (isset($_POST['mail'])) {
     $message = trim($_POST['message']);
     
     if (mb_strlen($name) < 5 || mb_strlen($name) > 30) {
-        $errors[] = 'Не корректная длина имени (допустимо 5-30 символов)!';
+        $errors[] = 'Не корректная длина ФИО (допустимо 5-30 символов)!';
+    }elseif(!preg_match("/[А-Яа-я]/", $name)){
+        $errors[] = 'Поле ФИО может содержать только русские буквы!';
     }elseif (mb_strlen($phone) < 17) {
         $errors[] = 'Не корректная длина номера телефона (должно быть 11 цифр)!';
-    }elseif (mb_strlen($message) < 5 || mb_strlen($message) > 100) {
-        $errors[] = 'Не корректная длина сообщения (допустимо 5-100 символов)!';
+    }elseif (mb_strlen($message) < 5 || mb_strlen($message) > 255) {
+        $errors[] = 'Не корректная длина сообщения (допустимо 5-255 символов)!';
     }
     /*elseif (!preg_match('/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/',$phone)) {
         $errors[] = 'Не корректный номер телефона! (Может начинаться с 8/+7 и содержать 11 цифр)';
@@ -38,13 +37,19 @@ if (isset($_POST['mail'])) {
         
         mail($to, $subject, $message, $headers);
     }
+    $views->mail--;
 }
+
+file_put_contents('views.json', json_encode($views));
+
+echo 'Количество посещений: '.$views->mail;
 ?>
 
 <DOCTUPE HTML!>
     <html>
     <head>
         <meta charset="UTF-8">
+        <link href="css/favicon.ico" rel="shortcut icon" type="image/x-icon">
         <title>Промэнергобезопасность</title>
         <link rel="stylesheet" href="css/Design.css">
     </head>
@@ -63,6 +68,7 @@ if (isset($_POST['mail'])) {
 <head>
     <meta charset="UTF-8">
     <title>Промэнергобезопасность</title>
+    <link href="css/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link rel="stylesheet" href="css/Design.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
